@@ -44,4 +44,12 @@
 
 - GitHub: [@user](https://github.com/Dasdoria1O1)
 
+## Diagrama de Casos de uso
+
+<img src="/DCU RouteIQ.jpeg"/>
+
+## Diagrama de clases
+
+<img src="/Diagrama de Clases RouteIQ.jpeg" />
+
 
