@@ -2,14 +2,19 @@ package com.example.entrega1
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.Manifest
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 class LocationActivity : AppCompatActivity() {
 
@@ -25,6 +30,16 @@ class LocationActivity : AppCompatActivity() {
         imagenLugar = findViewById(R.id.imagenLugar)
 
         btnAgregarFoto.setOnClickListener {
+            // Verificar y solicitar permisos en tiempo de ejecución
+            checkAndRequestPermissions()
+        }
+    }
+
+    private fun checkAndRequestPermissions() {
+        // Verificar o solicitar permisos
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), REQUEST_IMAGE_CAPTURE)
+        } else {
             dispatchTakePictureIntent()
         }
     }
@@ -40,6 +55,15 @@ class LocationActivity : AppCompatActivity() {
         }
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        // Verificar si se concedieron permisos
+        if (requestCode == REQUEST_IMAGE_CAPTURE && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            dispatchTakePictureIntent()
+        } else {
+            Toast.makeText(this, "Permiso de cámara denegado", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
