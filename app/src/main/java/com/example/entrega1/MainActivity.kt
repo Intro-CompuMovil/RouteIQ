@@ -1,5 +1,6 @@
 package com.example.entrega1
 
+import LocationActivity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
