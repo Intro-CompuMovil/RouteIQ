@@ -1,51 +1,33 @@
 package com.example.entrega1
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.widget.Toolbar
-import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.google.android.material.navigation.NavigationView
+import com.example.entrega1.utils.data.LoginStub
+import com.example.entrega1.utils.misc.NavInit
+import com.example.entrega1.utils.schemas.User
 
 class HomeActivity : AppCompatActivity() {
-    private lateinit var drawerLayout: DrawerLayout
     private lateinit var toggleButton: ActionBarDrawerToggle
+    private lateinit var drawerLayout: DrawerLayout
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        drawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
-        val navView = findViewById<NavigationView>(R.id.navView)
+        var user = intent.getParcelableExtra<User>("user")
 
-        // Se supone que se debe ver con el toolbar por default
-        //Cambiar en el layout
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-
-        toggleButton = ActionBarDrawerToggle(
-            this,
-            drawerLayout,
-            toolbar,
-            R.string.open,
-            R.string.close
-        )
-        drawerLayout.addDrawerListener(toggleButton)
-        toggleButton.syncState()
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true) // Cambia entre el boton y la actividad principal
-
-        navView.setNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.item1 -> Toast.makeText(applicationContext, "Clicked Item 1", Toast.LENGTH_SHORT).show()
-                R.id.item2 -> Toast.makeText(applicationContext, "Clicked Item 2", Toast.LENGTH_SHORT).show()
-                R.id.item3 -> Toast.makeText(applicationContext, "Clicked Item 3", Toast.LENGTH_SHORT).show()
-            }
-
-            true
+        if (user == null) {
+            user = LoginStub.anonymousUser
+            Log.i("USER HUELLA", "El usuario se ha loggeado con la huella, hay que hacer eso")
         }
+
+        toggleButton = NavInit().initNavigationBar(user, R.id.navView, R.id.drawerLayout, this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -54,4 +36,5 @@ class HomeActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
 }

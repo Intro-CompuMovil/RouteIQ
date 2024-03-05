@@ -1,5 +1,11 @@
 <resources>
-    <string name="app_name">Entrega 1</string>
+    <string name="app_name">Route IQ</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="crea_una_cuenta">Crea una cuenta</string>
+    <string name="no_tienes_una_cuenta">¿No tienes una cuenta?</string>
+    <string name="iniciar_sesion">Iniciar sesión</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="lemma">¿Estas listo para tu experiencia turistica?</string>
 </resources>

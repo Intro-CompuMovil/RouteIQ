@@ -46,4 +46,5 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("androidx.biometric:biometric:1.1.0")
     implementation("androidx.biometric:biometric-ktx:1.2.0-alpha05")
+    implementation("com.ToxicBakery.library.bcrypt:bcrypt:+")
 }

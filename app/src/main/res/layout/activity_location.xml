@@ -1,29 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingTop="16dp"
-    android:paddingRight="16dp"
-    android:paddingBottom="16dp"
-    tools:context="LocationActivity">
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:id="@+id/drawerLayoutLocation"
+tools:context=".LocationActivity"
+        >
 
-    <Button
-        android:id="@+id/btnAgregarFoto"
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="16dp"
+            android:paddingTop="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp">
+
+        <Button
+                android:id="@+id/btnAgregarFoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="16dp"
+                android:text="Agregar foto" />
+
+
+        <ImageView
+                android:id="@+id/imagenLugar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btnAgregarFoto"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/imagenmp"
+                android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
+
+
+<com.google.android.material.navigation.NavigationView
+        android:id="@+id/navViewLocation"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
-        android:text="Agregar foto" />
+        android:layout_height="match_parent"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/nav_drawer_menu"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        />
 
-    <ImageView
-        android:id="@+id/imagenLugar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btnAgregarFoto"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/imagenmp"
-        android:layout_centerHorizontal="true" />
-
-</RelativeLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

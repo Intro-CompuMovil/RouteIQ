@@ -3,9 +3,13 @@ package com.example.entrega1
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
+import com.example.entrega1.utils.data.LoginStub
+import com.example.entrega1.utils.schemas.User
 import java.util.concurrent.Executor
 
 class MainActivity : AppCompatActivity() {
@@ -26,8 +30,8 @@ class MainActivity : AppCompatActivity() {
             object : BiometricPrompt.AuthenticationCallback() {
                 override fun onAuthenticationFailed() {
                     super.onAuthenticationFailed()
-                    Toast.makeText(applicationContext, "Ups, sucedió algo con la autenticación con huella",
-                        Toast.LENGTH_SHORT)
+                    Toast.makeText(applicationContext,
+                        "Autenticate con tu usuario y contraseña", Toast.LENGTH_SHORT)
                         .show()
                 }
 
@@ -41,7 +45,6 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(applicationContext,
                         "Autenticate con tu usuario y contraseña", Toast.LENGTH_SHORT)
                         .show()
-                    startActivity( Intent(applicationContext, HomeActivity::class.java) )
                 }
             }
         )
@@ -54,8 +57,33 @@ class MainActivity : AppCompatActivity() {
 
         biometricPrompt.authenticate(promptInfo)
 
-        // Para la camara
-        //val intent = Intent(this, LocationActivity::class.java)
-        //startActivity(intent)
+
+        val sigInButton = findViewById<Button>(R.id.iniciarSesion)
+        val emailInput = findViewById<EditText>(R.id.email)
+        val passwordInput = findViewById<EditText>(R.id.password)
+        val createAccountButton = findViewById<Button>(R.id.createAccount)
+
+
+        createAccountButton.setOnClickListener {
+            startActivity( Intent(applicationContext, CreateAccountActivity::class.java) )
+        }
+
+        sigInButton.setOnClickListener {
+            val user : User? = LoginStub.loginUser(
+                emailInput.text.toString(),
+                passwordInput.text.toString()
+            )
+
+            if (user == null) {
+                Toast.makeText(applicationContext, "Ups, alguna de tu información no es correcta", Toast.LENGTH_SHORT).show()
+                emailInput.setText("")
+                passwordInput.setText("")
+            } else {
+                val intent = Intent(applicationContext, HomeActivity::class.java)
+                intent.putExtra("user", user)
+
+                startActivity(intent)
+            }
+        }
     }
 }

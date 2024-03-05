@@ -14,7 +14,7 @@
         android:id="@+id/sigin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/iniciar_sesion"
+        android:text="Crea tu cuenta"
         android:fontFamily="cursive"
         android:textSize="50sp"
         android:textAlignment="center"
@@ -23,7 +23,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/lemma"
+        android:text="Comienza a vivir experiencias inolvidables"
         android:fontFamily="sans-serif-condensed-medium"
         android:textSize="15sp"
         android:textAlignment="center"
@@ -46,7 +46,7 @@
 
         <EditText
             android:layout_below="@id/emailLabel"
-            android:id="@+id/email"
+            android:id="@+id/createemail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email"
@@ -60,27 +60,66 @@
             android:text="@string/password"
             android:labelFor="@id/password"
             android:id="@+id/passwordLabel"
-            android:layout_below="@id/email"
+            android:layout_below="@id/createemail"
             android:layout_marginTop="15dp"
             />
 
         <EditText
             android:layout_below="@id/passwordLabel"
-            android:id="@+id/password"
+            android:id="@+id/createpassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
             android:inputType="textPassword"
             />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Confirm Password"
+            android:labelFor="@id/createconfirmPassword"
+            android:id="@+id/confirmPasswordLabel"
+            android:layout_below="@id/createpassword"
+            android:layout_marginTop="15dp"
+            />
+
+        <EditText
+            android:layout_below="@id/confirmPasswordLabel"
+            android:id="@+id/createconfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Confirm Password"
+            android:inputType="textPassword"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:labelFor="@id/createName"
+            android:id="@+id/nameLabel"
+            android:layout_below="@id/createconfirmPassword"
+            android:layout_marginTop="15dp"
+            />
+
+        <EditText
+            android:layout_below="@id/nameLabel"
+            android:id="@+id/createName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Name"
+            android:inputType="text"
+            />
+
     </RelativeLayout>
 
     <Button
-        android:id="@+id/iniciarSesion"
+        android:id="@+id/createAccountButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="@string/iniciar_sesion"
+        android:text="Crea tu cuenta"
         />
 
     <LinearLayout
@@ -93,18 +132,18 @@
             android:layout_width="0dp"
             android:layout_weight="0.6"
             android:layout_height="wrap_content"
-            android:text="@string/no_tienes_una_cuenta"
+            android:text="¿Ya tienes una cuenta?"
             android:fontFamily="sans-serif-condensed-medium"
             android:textSize="18sp"
             android:textAlignment="center"
             />
 
         <Button
-            android:id="@+id/createAccount"
+            android:id="@+id/toSignIn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.4"
-            android:text="@string/crea_una_cuenta"
+            android:text="Inicia sesión"
             android:textColor="@android:color/holo_blue_light"
             android:background="@color/transparent"
             />

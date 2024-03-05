@@ -1,8 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="150dp"
     android:background="@color/design_default_color_primary"
     >
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/usernameHeader"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_launcher_foreground"
+        />
+
+    <TextView
+        android:id="@+id/usernameHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Username"
+        android:layout_centerInParent="true"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="#FFFFFF"
+        />
+
+    <TextView
+        android:id="@+id/emailHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="galindo@example.com"
+        android:layout_centerInParent="true"
+        android:textAlignment="center"
+        android:textSize="19sp"
+        android:fontFamily="sans-serif-thin"
+        android:textColor="#FFFFFF"
+        android:layout_below="@id/usernameHeader"
+        />
+
+</RelativeLayout>
