@@ -91,7 +91,8 @@ class CreatePlaceActivity : AppCompatActivity() {
                 longPressedMarker?.position!!,
                 binding.placeName.text.toString(),
                 longPressedMarker?.subDescription.toString(),
-                binding.placeDescription.text.toString()
+                binding.placeDescription.text.toString(),
+                null
             )
 
             Places.addPlaceUser(actualUser, newPlace)
