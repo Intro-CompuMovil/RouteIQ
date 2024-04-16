@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="60dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        tools:context=".turista.UpdateUserActivity"
+        android:padding="30dp"
+        >
+
+    <TextView
+            android:id="@+id/sigin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Actualiza tu cuenta"
+            android:fontFamily="cursive"
+            android:textSize="50sp"
+            android:textAlignment="center"
+            />
+
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            >
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/email"
+                android:labelFor="@id/email"
+                android:id="@+id/emailLabel"
+                android:layout_alignParentStart="true"
+                />
+
+        <EditText
+                android:layout_below="@id/emailLabel"
+                android:id="@+id/createemail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/email"
+                android:layout_centerInParent="true"
+                android:inputType="textEmailAddress"
+                />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/password"
+                android:labelFor="@id/password"
+                android:id="@+id/passwordLabel"
+                android:layout_below="@id/createemail"
+                android:layout_marginTop="15dp"
+                />
+
+        <EditText
+                android:layout_below="@id/passwordLabel"
+                android:id="@+id/createpassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Confirm Password"
+                android:labelFor="@id/createconfirmPassword"
+                android:id="@+id/confirmPasswordLabel"
+                android:layout_below="@id/createpassword"
+                android:layout_marginTop="15dp"
+                />
+
+        <EditText
+                android:layout_below="@id/confirmPasswordLabel"
+                android:id="@+id/createconfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Confirm Password"
+                android:inputType="textPassword"
+                />
+
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:labelFor="@id/createName"
+                android:id="@+id/nameLabel"
+                android:layout_below="@id/createconfirmPassword"
+                android:layout_marginTop="15dp"
+                />
+
+        <EditText
+                android:layout_below="@id/nameLabel"
+                android:id="@+id/createName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Name"
+                android:inputType="text"
+                />
+
+    </RelativeLayout>
+
+    <Button
+            android:id="@+id/createAccountButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Actualiza tu cuenta"
+            />
+
+
+</LinearLayout>

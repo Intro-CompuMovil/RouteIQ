@@ -33,4 +33,10 @@
             android:title="¡Captura tus lugares!"
             android:icon="@drawable/camera"
             />
+
+    <item
+            android:id="@+id/updateUser"
+            android:title="Editar usuario"
+            android:icon="@drawable/ic_launcher_foreground" />
+
 </menu>

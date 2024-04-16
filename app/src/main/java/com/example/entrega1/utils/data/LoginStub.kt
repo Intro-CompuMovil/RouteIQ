@@ -32,8 +32,18 @@ class LoginStub {
         fun loginUser(email: String, password: String) : User? {
             val user : User = users.find { it.email == email } ?: return null
             if (user.password == null) return null
-            return if (!Bcrypt.verify(password, user.password)) null
+            return if (!Bcrypt.verify(password, user.password!!)) null
             else user
+        }
+
+        fun updateUserByEmail(email: String, newEmail: String, newName: String, newPassword: String?) : User?  {
+            val updateUser: User = users.find { it.email == email } ?: return null
+
+            updateUser.email = newEmail
+            if(newPassword != null) updateUser.password = Bcrypt.hash(newPassword ,10)
+            updateUser.name = newName
+
+            return updateUser
         }
     }
 }

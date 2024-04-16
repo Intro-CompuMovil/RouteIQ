@@ -20,4 +20,9 @@
         android:title="Crear lugar"
         android:icon="@drawable/map" />
 
+    <item
+        android:id="@+id/updateUser"
+        android:title="Editar usuario"
+        android:icon="@drawable/ic_launcher_foreground" />
+
 </menu>

@@ -1,68 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-feature android:name="android.hardware.camera" />
 
     <application
-            android:allowBackup="true"
-            android:dataExtractionRules="@xml/data_extraction_rules"
-            android:fullBackupContent="@xml/backup_rules"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:theme="@style/Theme.Entrega1"
-            tools:targetApi="31">
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Entrega1"
+        tools:targetApi="31" >
         <activity
-                android:name=".turista.MapTouristActivity"
-                android:exported="false" />
+            android:name=".turista.UpdateUserActivity"
+            android:exported="false" />
         <activity
-                android:name=".turista.ConfirmOfferActivity"
-                android:exported="false" />
+            android:name=".turista.MapTouristActivity"
+            android:exported="false" />
         <activity
-                android:name=".turista.CreateTourActivity"
-                android:exported="false" />
+            android:name=".turista.ConfirmOfferActivity"
+            android:exported="false" />
         <activity
-                android:name=".utils.roadRender.RoadRenderActivity"
-                android:exported="false" />
+            android:name=".turista.CreateTourActivity"
+            android:exported="false" />
         <activity
-                android:name=".empresa.CreateTourOfferActivity"
-                android:exported="false" />
+            android:name=".utils.roadRender.RoadRenderActivity"
+            android:exported="false" />
         <activity
-                android:name=".empresa.CreatePlaceActivity"
-                android:exported="false" />
+            android:name=".empresa.CreateTourOfferActivity"
+            android:exported="false" />
         <activity
-                android:name=".empresa.CreateOfferActivity"
-                android:exported="false" />
+            android:name=".empresa.CreatePlaceActivity"
+            android:exported="false" />
         <activity
-                android:name=".empresa.HomeEnterpriseActivity"
-                android:exported="false" />
+            android:name=".empresa.CreateOfferActivity"
+            android:exported="false" />
         <activity
-                android:name=".turista.AffiliateActivity"
-                android:exported="false" />
+            android:name=".empresa.HomeEnterpriseActivity"
+            android:exported="false" />
         <activity
-                android:name=".turista.OfferActivity"
-                android:exported="false" />
+            android:name=".turista.AffiliateActivity"
+            android:exported="false" />
         <activity
-                android:name=".FirstHomeActivity"
-                android:exported="false" />
+            android:name=".turista.OfferActivity"
+            android:exported="false" />
         <activity
-                android:name=".login.CreateAccountActivity"
-                android:exported="false" />
+            android:name=".FirstHomeActivity"
+            android:exported="false" />
         <activity
-                android:name=".turista.HomeActivity"
-                android:exported="false" />
+            android:name=".login.CreateAccountActivity"
+            android:exported="false" />
         <activity
-                android:name=".login.MainActivity"
-                android:exported="true">
+            android:name=".turista.HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".login.MainActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -70,8 +73,8 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".turista.LocationActivity"
-                android:exported="true">
+            android:name=".turista.LocationActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
