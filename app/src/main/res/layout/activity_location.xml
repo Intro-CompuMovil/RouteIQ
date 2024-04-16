@@ -16,27 +16,27 @@
         <org.osmdroid.views.MapView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.6"
-                android:id="@+id/osmMapPlace"
+                android:layout_weight="0.4"
+                android:id="@+id/osmMapUser"
                 />
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.4"
+                android:layout_weight="0.6"
                 android:padding="30dp"
                 >
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/nombre_del_lugar"
-                    android:labelFor="@id/placeName"
-                    android:id="@+id/placeNameLabel"
+                    android:labelFor="@id/placeNameUser"
+                    android:id="@+id/placeNameUserLabel"
                     android:layout_alignParentStart="true"
                     />
 
             <EditText
-                    android:layout_below="@id/placeNameLabel"
-                    android:id="@+id/placeName"
+                    android:layout_below="@id/placeNameUserLabel"
+                    android:id="@+id/placeNameUser"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/nombre_del_lugar"
@@ -47,25 +47,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/descripcion_del_lugar"
-                    android:labelFor="@id/placeDescription"
-                    android:id="@+id/placeDescriptionLabel"
-                    android:layout_below="@id/placeName"
+                    android:labelFor="@id/placeDescriptionUser"
+                    android:id="@+id/placeDescriptionUserLabel"
+                    android:layout_below="@id/placeNameUser"
                     android:layout_marginTop="15dp"
                     />
 
             <EditText
-                    android:layout_below="@id/placeDescriptionLabel"
-                    android:id="@+id/placeDescription"
+                    android:layout_below="@id/placeDescriptionUserLabel"
+                    android:id="@+id/placeDescriptionUser"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/descripcion_del_lugar"
                     />
 
             <Button
-                    android:id="@+id/addPlaceButton"
+                    android:id="@+id/addPlaceButtonUser"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/placeDescription"
+                    android:layout_below="@id/placeDescriptionUser"
                     android:layout_centerInParent="true"
                     android:layout_margin="20dp"
                     android:text="Agregar lugar"
@@ -74,9 +74,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="100dp"
                     android:id="@+id/buttons"
-                    android:gravity="center_horizontal">
+                    android:gravity="center_horizontal"
+                    android:layout_below="@id/addPlaceButtonUser"
+                    >
 
                 <Button
                         android:id="@+id/btnGallery"

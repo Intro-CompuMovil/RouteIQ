@@ -58,4 +58,5 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
     implementation("org.osmdroid:osmdroid-android:6.1.14")
     implementation("com.github.MKergall:osmbonuspack:6.9.0")
+    implementation("com.google.android.gms:play-services-location:21.2.0")
 }

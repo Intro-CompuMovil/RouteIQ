@@ -14,6 +14,7 @@ import com.example.entrega1.R
 import com.example.entrega1.empresa.CreateOfferActivity
 import com.example.entrega1.empresa.CreatePlaceActivity
 import com.example.entrega1.empresa.HomeEnterpriseActivity
+import com.example.entrega1.turista.MapTouristActivity
 import com.example.entrega1.utils.schemas.User
 import com.google.android.material.navigation.NavigationView
 
@@ -60,7 +61,11 @@ class NavInit {
                     intent.putExtra("user", user)
                     context.startActivity( intent )
                 }
-                R.id.mapIcon -> Toast.makeText(context.applicationContext, "Tendremos el mapa pronto", Toast.LENGTH_SHORT).show()
+                R.id.mapIcon -> {
+                    val intent = Intent(context.applicationContext, MapTouristActivity::class.java)
+                    intent.putExtra("user", user)
+                    context.startActivity( intent )
+                }
                 R.id.affiliatesIcon -> {
                     val intent = Intent(context.applicationContext, AffiliateActivity::class.java)
                     intent.putExtra("user", user)

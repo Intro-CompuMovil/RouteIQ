@@ -37,6 +37,7 @@ import android.location.Address
 import android.location.Geocoder
 import android.widget.Toast
 import com.example.entrega1.databinding.ActivityCreatePlaceBinding
+import com.example.entrega1.databinding.ActivityLocationBinding
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
@@ -50,12 +51,11 @@ import org.osmdroid.views.overlay.TilesOverlay
 class LocationActivity : AppCompatActivity() {
 
     private lateinit var toggle: ActionBarDrawerToggle
-    private lateinit var imageView: ImageView
+    private lateinit var imageVieww: ImageView
     private lateinit var actualUser: User
-    private lateinit var binding: ActivityCreatePlaceBinding
+    private lateinit var binding: ActivityLocationBinding
     private var longPressedMarker: Marker? = null
     private lateinit var mapController : IMapController
-
     private var selectedImage: Bitmap? = null
 
     private val takePicture =
@@ -76,18 +76,18 @@ class LocationActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        binding.osmMapPlace.onResume()
+        binding.osmMapUser.onResume()
         setInitialPoint()
 
         val uiManager = getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
         if (uiManager.nightMode == UiModeManager.MODE_NIGHT_YES) {
-            binding.osmMapPlace.overlayManager.tilesOverlay.setColorFilter(TilesOverlay.INVERT_COLORS)
+            binding.osmMapUser.overlayManager.tilesOverlay.setColorFilter(TilesOverlay.INVERT_COLORS)
         }
     }
 
     override fun onPause() {
         super.onPause()
-        binding.osmMapPlace.onPause()
+        binding.osmMapUser.onPause()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,43 +95,44 @@ class LocationActivity : AppCompatActivity() {
 
         Configuration.getInstance().userAgentValue = applicationContext.packageName
 
-        binding = ActivityCreatePlaceBinding.inflate(layoutInflater)
+        binding = ActivityLocationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         actualUser = intent.getParcelableExtra<User>("user")!!
 
-        toggle = NavInit().initNavigationBar(actualUser, R.id.navViewEnterprise, R.id.drawerLayoutEnterprise, this)
+        //toggle = NavInit().initNavigationBar(actualUser, R.id.navViewEnterprise, R.id.drawerLayoutEnterprise, this)
 
 
-        binding.osmMapPlace.setTileSource(TileSourceFactory.MAPNIK)
-        binding.osmMapPlace.setMultiTouchControls(true)
-        binding.osmMapPlace.overlays.add(createOverlaysEvents())
-        mapController = binding.osmMapPlace.controller
-        binding.addPlaceButton.setOnClickListener {
+        binding.osmMapUser.setTileSource(TileSourceFactory.MAPNIK)
+        binding.osmMapUser.setMultiTouchControls(true)
+        binding.osmMapUser.overlays.add(createOverlaysEvents())
+        mapController = binding.osmMapUser.controller
+        binding.addPlaceButtonUser.setOnClickListener {
             if (longPressedMarker == null) {
                 Toast.makeText(applicationContext, "No tienes un marcador", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            if (binding.placeName.text.toString() == "") {
+            if (binding.placeNameUser.text.toString() == "") {
                 Toast.makeText(applicationContext, "Agrega un titulo del lugar", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            if (binding.placeDescription.text.toString() == "") {
+            if (binding.placeDescriptionUser.text.toString() == "") {
                 Toast.makeText(applicationContext, "Agrega una descripción del lugar", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             val newPlace = Place(
                 longPressedMarker?.position!!,
-                binding.placeName.text.toString(),
+                binding.placeNameUser.text.toString(),
                 longPressedMarker?.subDescription.toString(),
-                binding.placeDescription.text.toString(),
+                binding.placeDescriptionUser.text.toString(),
                 selectedImage
             )
 
             Places.addPlaceUser(actualUser, newPlace)
+            Log.i("PLACES", Places.printPlaces())
             Toast.makeText(baseContext, "Lugar añadido con exito", Toast.LENGTH_SHORT).show()
 
             resetUI()
@@ -142,19 +143,13 @@ class LocationActivity : AppCompatActivity() {
             Log.i("USER HUELLA", "El usuario se ha loggeado con la huella, hay que hacer eso")
         }
 
-        toggle = NavInit().initNavigationBar(
-            actualUser,
-            R.id.navViewLocation,
-            R.id.drawerLayoutLocation, this
-        )
+        imageVieww = binding.imageView
 
-        imageView = findViewById(R.id.imageView)
-
-        findViewById<View>(R.id.btnGallery).setOnClickListener {
+        binding.btnGallery.setOnClickListener {
             openGallery()
         }
 
-        findViewById<View>(R.id.btnCamera).setOnClickListener {
+        binding.btnCamera.setOnClickListener {
             openCamera()
         }
     }
@@ -176,18 +171,18 @@ class LocationActivity : AppCompatActivity() {
     }
 
     private fun longPressOnMap(p: GeoPoint) {
-        longPressedMarker?.let { binding.osmMapPlace.overlays.remove(it) }
+        longPressedMarker?.let { binding.osmMapUser.overlays.remove(it) }
 
         val geocoder = Geocoder(baseContext)
         val address = geocoder.getFromLocation(p.latitude, p.longitude, 1)
         longPressedMarker = createMarker(p, address!![0].getAddressLine(0), address[0].countryName, 0)
-        longPressedMarker?.let { binding.osmMapPlace.overlays.add(it) }
+        longPressedMarker?.let { binding.osmMapUser.overlays.add(it) }
     }
     private fun createMarker(p: GeoPoint, title: String?, desc: String?, iconID: Int): Marker? {
         var marker : Marker? = null
-        if (binding.osmMapPlace == null) return marker
+        if (binding.osmMapUser == null) return marker
 
-        marker = Marker(binding.osmMapPlace)
+        marker = Marker(binding.osmMapUser)
 
         title?.let { marker.title = it }
         desc?.let { marker.subDescription = it }
@@ -208,9 +203,9 @@ class LocationActivity : AppCompatActivity() {
     }
 
     private fun resetUI() {
-        binding.placeName.setText("")
-        binding.placeDescription.setText("")
-        longPressedMarker?.let { binding.osmMapPlace.overlays.remove(it) }
+        binding.placeNameUser.setText("")
+        binding.placeDescriptionUser.setText("")
+        longPressedMarker?.let { binding.osmMapUser.overlays.remove(it) }
         setInitialPoint()
     }
 
@@ -249,7 +244,7 @@ class LocationActivity : AppCompatActivity() {
     private fun handleImageResult(data: Intent?) {
         val extras = data?.extras
         selectedImage = data?.extras?.get("data") as? Bitmap?
-        imageView.setImageBitmap(selectedImage)
+        imageVieww.setImageBitmap(selectedImage)
     }
 
     private fun handleGalleryImageResult(data: Intent?) {
@@ -258,7 +253,7 @@ class LocationActivity : AppCompatActivity() {
             val inputStream: InputStream? = contentResolver.openInputStream(imageUri!!)
             selectedImage = BitmapFactory.decodeStream(inputStream)
             inputStream?.close()
-            imageView.setImageBitmap(selectedImage)
+            imageVieww.setImageBitmap(selectedImage)
         } catch (e: IOException) {
             e.printStackTrace()
             // Manejar cualquier error que pueda ocurrir al decodificar la imagen
