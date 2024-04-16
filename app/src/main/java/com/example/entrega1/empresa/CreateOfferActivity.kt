@@ -28,22 +28,25 @@ class CreateOfferActivity : AppCompatActivity() {
 
         toggle = NavInit().initNavigationBar(user, R.id.navViewEnterprise, R.id.drawerLayoutEnterprise, this)
 
-        Tours.seed()
+
 
         val tours = Tours.getTours()
         val usersNames : ArrayList<String> = ArrayList()
         val descriptions: ArrayList<String> = ArrayList()
-
+        val mappedIds : ArrayList<Int> = ArrayList()
         for (tour in tours) {
-            usersNames.add(tour.user.name.toString())
-            descriptions.add(tour.title)
+            if (!tour.approved) {
+                usersNames.add(tour.user.name.toString())
+                descriptions.add(tour.title)
+                mappedIds.add(tour.id)
+            }
         }
 
         binding.listTours.adapter = TourAdapter(this, usersNames, descriptions)
         binding.listTours.setOnItemClickListener { parent, view, position, id ->
             val intent = Intent(applicationContext, CreateTourOfferActivity::class.java)
             val bundle = Bundle()
-            bundle.putInt("tourId", tours[position].id)
+            bundle.putInt("tourId", mappedIds[position])
             bundle.putParcelable("user", user)
             intent.putExtra("tourInfo", bundle)
             startActivity( intent )

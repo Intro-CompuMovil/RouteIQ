@@ -10,7 +10,12 @@ class Tours {
         private val tours : ArrayList<Tour> = ArrayList()
 
         fun addTour(newTour: Tour) {
+            newTour.id = tours.size
             tours.add(newTour)
+        }
+
+        fun approveTourById(id: Int) {
+            tours.find { it.id == id }?.approved = true
         }
 
         fun getTours() : ArrayList<Tour> {
@@ -24,7 +29,8 @@ class Tours {
                         LoginStub.anonymousUser,
                         "Viaje a la Javeriana",
                         "Es solo ir a la javeriana",
-                        i+1
+                        i+1,
+                        false
                     )
                 )
             }

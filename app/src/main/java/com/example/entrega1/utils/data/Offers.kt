@@ -9,20 +9,21 @@ class Offers {
     companion object {
         val offers : ArrayList<Offer> = ArrayList()
 
-        fun seed() {
-            for (a in 0..10) {
-                offers.add(
-                    Offer(
-                        Agency(
-                            "Agencia papel",
-                            "Una agencia linda"
-                        ),
-                        23.7,
-                        "Eligenos",
-                        Date()
-                    )
-                )
-            }
+        fun addOffer(newOffer: Offer) {
+            newOffer.id = offers.size
+            offers.add(newOffer)
+        }
+
+        fun removeOffer(off: Offer) {
+            offers.remove(off)
+        }
+
+        fun findById(id: Int) : Offer? {
+            return offers.find { it.id == id }
+        }
+
+        fun acceptOfferById(id: Int) {
+            offers.find { it.id == id }?.accepted = true
         }
     }
 

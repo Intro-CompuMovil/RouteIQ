@@ -17,6 +17,10 @@ class Places {
         fun printPlaces() : String {
             return userPlaces.toString()
         }
+
+        fun getPlacesFromUser(user: User) : HashSet<Place>? {
+            return userPlaces[user.email!!]
+        }
     }
 
 }

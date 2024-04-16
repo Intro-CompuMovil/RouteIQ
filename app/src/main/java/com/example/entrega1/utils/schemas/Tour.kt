@@ -1,8 +1,9 @@
 package com.example.entrega1.utils.schemas
 
-data class Tour(
+data class Tour (
     val user: User,
     val title: String,
     val description: String,
-    val id: Int
+    var id: Int,
+    var approved: Boolean
 )
