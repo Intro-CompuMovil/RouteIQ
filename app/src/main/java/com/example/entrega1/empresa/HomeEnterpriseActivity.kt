@@ -3,6 +3,7 @@ package com.example.entrega1.empresa
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.entrega1.R
 import com.example.entrega1.databinding.ActivityHomeEnterpriseBinding
@@ -31,5 +32,12 @@ class HomeEnterpriseActivity : AppCompatActivity() {
         toggleButton = NavInit().initNavigationBar(user, R.id.navViewEnterprise, R.id.drawerLayoutEnterprise, this)
         this.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.infoEnterprise.text = "Que gusto tenerte de vuelta. El nombre de tu empresa es: " + user.name
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (toggleButton.onOptionsItemSelected(item)) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

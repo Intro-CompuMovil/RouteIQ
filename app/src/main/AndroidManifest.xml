@@ -18,6 +18,9 @@
             android:theme="@style/Theme.Entrega1"
             tools:targetApi="31">
         <activity
+                android:name=".empresa.CreateTourOfferActivity"
+                android:exported="false" />
+        <activity
                 android:name=".empresa.CreatePlaceActivity"
                 android:exported="false" />
         <activity

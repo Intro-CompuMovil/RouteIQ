@@ -8,6 +8,8 @@
     <string name="password">Password</string>
     <string name="email">Email</string>
     <string name="lemma">¿Estas listo para tu experiencia turistica?</string>
+    <string name="descripcion_del_lugar">Descripcion del lugar</string>
+    <string name="nombre_del_lugar">Nombre del lugar</string>
 
     <string-array name="users_types">
         <item>Turista</item>

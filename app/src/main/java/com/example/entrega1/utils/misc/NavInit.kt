@@ -11,6 +11,7 @@ import com.example.entrega1.turista.HomeActivity
 import com.example.entrega1.turista.LocationActivity
 import com.example.entrega1.turista.OfferActivity
 import com.example.entrega1.R
+import com.example.entrega1.empresa.CreateOfferActivity
 import com.example.entrega1.empresa.CreatePlaceActivity
 import com.example.entrega1.empresa.HomeEnterpriseActivity
 import com.example.entrega1.utils.schemas.User
@@ -80,6 +81,12 @@ class NavInit {
 
                 R.id.createPlace -> {
                     val intent = Intent(context.applicationContext, CreatePlaceActivity::class.java)
+                    intent.putExtra("user", user)
+                    context.startActivity( intent )
+                }
+
+                R.id.crearOferta -> {
+                    val intent = Intent(context.applicationContext, CreateOfferActivity::class.java)
                     intent.putExtra("user", user)
                     context.startActivity( intent )
                 }

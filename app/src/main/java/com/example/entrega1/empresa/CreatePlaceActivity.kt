@@ -1,5 +1,7 @@
 package com.example.entrega1.empresa
 
+import android.app.UiModeManager
+import android.content.Context
 import android.location.Address
 import android.location.Geocoder
 import android.location.Geocoder.GeocodeListener
@@ -7,9 +9,16 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.entrega1.R
 import com.example.entrega1.databinding.ActivityCreatePlaceBinding
+import com.example.entrega1.utils.data.Places
+import com.example.entrega1.utils.misc.NavInit
+import com.example.entrega1.utils.schemas.Place
+import com.example.entrega1.utils.schemas.User
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
@@ -18,17 +27,25 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.TilesOverlay
 
 class CreatePlaceActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreatePlaceBinding
     private var longPressedMarker: Marker? = null
     private lateinit var mapController : IMapController
+    private lateinit var actualUser: User
+    private lateinit var toggle: ActionBarDrawerToggle
 
     override fun onResume() {
         super.onResume()
         binding.osmMapPlace.onResume()
         setInitialPoint()
+
+        val uiManager = getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
+        if (uiManager.nightMode == UiModeManager.MODE_NIGHT_YES) {
+            binding.osmMapPlace.overlayManager.tilesOverlay.setColorFilter(TilesOverlay.INVERT_COLORS)
+        }
     }
 
     override fun onPause() {
@@ -44,11 +61,44 @@ class CreatePlaceActivity : AppCompatActivity() {
         binding = ActivityCreatePlaceBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        actualUser = intent.getParcelableExtra<User>("user")!!
+
+        toggle = NavInit().initNavigationBar(actualUser, R.id.navViewEnterprise, R.id.drawerLayoutEnterprise, this)
+
+
         binding.osmMapPlace.setTileSource(TileSourceFactory.MAPNIK)
         binding.osmMapPlace.setMultiTouchControls(true)
         binding.osmMapPlace.overlays.add(createOverlaysEvents())
         mapController = binding.osmMapPlace.controller
 
+        binding.addPlaceButton.setOnClickListener {
+            if (longPressedMarker == null) {
+                Toast.makeText(applicationContext, "No tienes un marcador", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (binding.placeName.text.toString() == "") {
+                Toast.makeText(applicationContext, "Agrega un titulo del lugar", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (binding.placeDescription.text.toString() == "") {
+                Toast.makeText(applicationContext, "Agrega una descripción del lugar", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val newPlace = Place(
+                longPressedMarker?.position!!,
+                binding.placeName.text.toString(),
+                longPressedMarker?.subDescription.toString(),
+                binding.placeDescription.text.toString()
+            )
+
+            Places.addPlaceUser(actualUser, newPlace)
+            Toast.makeText(baseContext, "Lugar añadido con exito", Toast.LENGTH_SHORT).show()
+
+            resetUI()
+        }
     }
 
     private fun createOverlaysEvents() : MapEventsOverlay {
@@ -98,5 +148,19 @@ class CreatePlaceActivity : AppCompatActivity() {
         val startPoint = GeoPoint(4.628208456021053, -74.06430006640453)
         mapController.setZoom(18.0)
         mapController.setCenter(startPoint)
+    }
+
+    private fun resetUI() {
+        binding.placeName.setText("")
+        binding.placeDescription.setText("")
+        longPressedMarker?.let { binding.osmMapPlace.overlays.remove(it) }
+        setInitialPoint()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (toggle.onOptionsItemSelected(item)) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

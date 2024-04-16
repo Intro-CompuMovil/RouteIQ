@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_margin="20dp"
+        android:padding="20dp"
+        >
+
+    <ImageView
+            android:id="@+id/offerMapIcon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/map"
+            android:layout_centerVertical="true"
+            />
+
+    <TextView
+            android:id="@+id/textUserNameOffer"
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/offerMapIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="20sp"
+            />
+
+    <TextView
+            android:id="@+id/tourTitle"
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/textUserNameOffer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Este es el titulo de la offerta"
+            android:textAlignment="center"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="15sp"
+            />
+
+</RelativeLayout>
