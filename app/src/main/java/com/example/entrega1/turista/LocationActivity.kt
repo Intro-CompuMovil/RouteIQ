@@ -1,4 +1,4 @@
-package com.example.entrega1
+package com.example.entrega1.turista
 
 import android.Manifest
 import android.app.Activity
@@ -17,10 +17,10 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.entrega1.R
 import com.example.entrega1.utils.data.LoginStub
 import com.example.entrega1.utils.misc.NavInit
 import com.example.entrega1.utils.schemas.User
-import kotlin.math.roundToInt
 
 class LocationActivity : AppCompatActivity() {
 
@@ -49,7 +49,9 @@ class LocationActivity : AppCompatActivity() {
         }
 
 
-        toggleButton = NavInit().initNavigationBar(user, R.id.navViewLocation, R.id.drawerLayoutLocation, this)
+        toggleButton = NavInit().initNavigationBar(user,
+            R.id.navViewLocation,
+            R.id.drawerLayoutLocation, this)
 
 
         btnAgregarFoto = findViewById(R.id.btnAgregarFoto)

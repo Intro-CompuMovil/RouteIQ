@@ -6,12 +6,14 @@ import android.os.Parcelable
 data class User (
     val email: String?,
     val password: ByteArray?,
-    val name: String?
+    val name: String?,
+    val type: String?
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         email = parcel.readString(),
         password = parcel.createByteArray(),
-        name = parcel.readString()
+        name = parcel.readString(),
+        type = parcel.readString()
     )
 
     override fun describeContents(): Int {
@@ -20,8 +22,9 @@ data class User (
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeString(email)
-        dest.writeString(name)
         dest.writeByteArray(password)
+        dest.writeString(name)
+        dest.writeString(type)
     }
 
     companion object CREATOR : Parcelable.Creator<User> {

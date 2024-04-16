@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.gms.google-services") version "4.4.1" apply false
 }
 
 android {
@@ -33,6 +34,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+    }
+
 }
 
 dependencies {
@@ -47,4 +52,6 @@ dependencies {
     implementation("androidx.biometric:biometric:1.1.0")
     implementation("androidx.biometric:biometric-ktx:1.2.0-alpha05")
     implementation("com.ToxicBakery.library.bcrypt:bcrypt:+")
+    implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
+    implementation("org.osmdroid:osmdroid-android:6.1.14")
 }

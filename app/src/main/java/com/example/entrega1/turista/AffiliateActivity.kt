@@ -1,20 +1,17 @@
-package com.example.entrega1
+package com.example.entrega1.turista
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.drawerlayout.widget.DrawerLayout
+import com.example.entrega1.R
 import com.example.entrega1.utils.data.Agencies
 import com.example.entrega1.utils.data.LoginStub
 import com.example.entrega1.utils.misc.NavInit
 import com.example.entrega1.utils.schemas.User
-import com.google.android.material.navigation.NavigationView
 
 class AffiliateActivity : AppCompatActivity() {
 
@@ -33,7 +30,9 @@ class AffiliateActivity : AppCompatActivity() {
 
         user.email?.let { Log.i("USER", it) }
 
-        toggleButton = NavInit().initNavigationBar(user, R.id.navViewAffiliate, R.id.drawerLayoutAffiliate, this)
+        toggleButton = NavInit().initNavigationBar(user,
+            R.id.navViewAffiliate,
+            R.id.drawerLayoutAffiliate, this)
 
         renderizarMensajes()
     }

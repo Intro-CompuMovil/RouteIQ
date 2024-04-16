@@ -28,7 +28,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Estas en el home"
+        android:text="¡Estas en el home!"
         android:textSize="50sp"
         app:layout_constraintBottom_toTopOf="@id/estasHome"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,5 +37,6 @@
         android:textAlignment="center"
         android:padding="10dp"
         />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

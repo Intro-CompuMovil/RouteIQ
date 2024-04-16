@@ -3,6 +3,7 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature android:name="android.hardware.camera" />
 
@@ -17,22 +18,31 @@
             android:theme="@style/Theme.Entrega1"
             tools:targetApi="31">
         <activity
-                android:name=".AffiliateActivity"
+                android:name=".empresa.CreatePlaceActivity"
                 android:exported="false" />
         <activity
-                android:name=".OfferActivity"
+                android:name=".empresa.CreateOfferActivity"
+                android:exported="false" />
+        <activity
+                android:name=".empresa.HomeEnterpriseActivity"
+                android:exported="false" />
+        <activity
+                android:name=".turista.AffiliateActivity"
+                android:exported="false" />
+        <activity
+                android:name=".turista.OfferActivity"
                 android:exported="false" />
         <activity
                 android:name=".FirstHomeActivity"
                 android:exported="false" />
         <activity
-                android:name=".CreateAccountActivity"
+                android:name=".login.CreateAccountActivity"
                 android:exported="false" />
         <activity
-                android:name=".HomeActivity"
+                android:name=".turista.HomeActivity"
                 android:exported="false" />
         <activity
-                android:name=".MainActivity"
+                android:name=".login.MainActivity"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,7 +51,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".LocationActivity"
+                android:name=".turista.LocationActivity"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

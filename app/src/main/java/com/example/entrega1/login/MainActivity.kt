@@ -1,4 +1,4 @@
-package com.example.entrega1
+package com.example.entrega1.login
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +8,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
+import com.example.entrega1.turista.HomeActivity
+import com.example.entrega1.R
+import com.example.entrega1.empresa.HomeEnterpriseActivity
 import com.example.entrega1.utils.data.LoginStub
 import com.example.entrega1.utils.schemas.User
 import java.util.concurrent.Executor
@@ -21,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        LoginStub.Login()
         executor = ContextCompat.getMainExecutor(this)
 
         biometricPrompt = BiometricPrompt(
@@ -79,9 +82,13 @@ class MainActivity : AppCompatActivity() {
                 emailInput.setText("")
                 passwordInput.setText("")
             } else {
-                val intent = Intent(applicationContext, HomeActivity::class.java)
+                var intent : Intent
+                if (user.type.toString() == "Turista") {
+                    intent = Intent(applicationContext, HomeActivity::class.java)
+                } else {
+                    intent = Intent(applicationContext, HomeEnterpriseActivity::class.java)
+                }
                 intent.putExtra("user", user)
-
                 startActivity(intent)
             }
         }

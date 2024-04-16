@@ -1,24 +1,18 @@
-package com.example.entrega1
+package com.example.entrega1.turista
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.drawerlayout.widget.DrawerLayout
+import com.example.entrega1.R
 import com.example.entrega1.utils.adapters.OffersAdapter
 import com.example.entrega1.utils.data.LoginStub
 import com.example.entrega1.utils.data.Offers
 import com.example.entrega1.utils.misc.NavInit
-import com.example.entrega1.utils.schemas.Offer
 import com.example.entrega1.utils.schemas.User
-import com.google.android.material.navigation.NavigationView
 
 class OfferActivity : AppCompatActivity() {
 
@@ -40,7 +34,9 @@ class OfferActivity : AppCompatActivity() {
         user.email?.let { Log.i("USER", it) }
 
 
-        toggleButton = NavInit().initNavigationBar(user, R.id.navViewOffer, R.id.drawerLayoutOffer, this)
+        toggleButton = NavInit().initNavigationBar(user,
+            R.id.navViewOffer,
+            R.id.drawerLayoutOffer, this)
 
 
         val listOffers = findViewById<ListView>(R.id.listOffers)

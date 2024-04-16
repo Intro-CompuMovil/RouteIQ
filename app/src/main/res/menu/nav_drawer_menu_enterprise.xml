@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="HardcodedText"
+        >
+
+    <item
+            android:id="@+id/homeIconEnterprise"
+            android:title="Home"
+            android:icon="@drawable/home"
+            />
+
+    <item
+        android:id="@+id/crearOferta"
+        android:title="Crear oferta"
+        android:icon="@drawable/offer" />
+
+    <item
+        android:id="@+id/createPlace"
+        android:title="Crear lugar"
+        android:icon="@drawable/map" />
+
+</menu>

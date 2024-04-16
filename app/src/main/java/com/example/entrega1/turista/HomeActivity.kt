@@ -1,4 +1,4 @@
-package com.example.entrega1
+package com.example.entrega1.turista
 
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
+import com.example.entrega1.R
 import com.example.entrega1.utils.data.LoginStub
 import com.example.entrega1.utils.misc.NavInit
 import com.example.entrega1.utils.schemas.User

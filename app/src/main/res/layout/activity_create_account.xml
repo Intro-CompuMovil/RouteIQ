@@ -7,7 +7,7 @@
     android:layout_margin="60dp"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".MainActivity"
+    tools:context=".login.MainActivity"
     >
 
     <TextView
@@ -111,6 +111,15 @@
             android:hint="Name"
             android:inputType="text"
             />
+
+        <Spinner
+                android:id="@+id/userType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/createName"
+                android:entries="@array/users_types"
+                android:layout_margin="20dp"
+                />
 
     </RelativeLayout>
 
