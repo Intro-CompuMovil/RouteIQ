@@ -108,8 +108,11 @@
             android:textColor="@android:color/holo_blue_light"
             android:background="@color/transparent"
             />
-
-
     </LinearLayout>
+    <Button
+            android:id="@+id/anonymousLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Anónimo" />
 
 </LinearLayout>

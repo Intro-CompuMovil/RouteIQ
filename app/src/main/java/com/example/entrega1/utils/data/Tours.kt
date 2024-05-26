@@ -26,7 +26,7 @@ class Tours {
             for (i in 0 .. 4) {
                 tours.add(
                     Tour(
-                        LoginStub.anonymousUser,
+                        User("anonymous@example.com", null, "Anonymous", "user"),
                         "Viaje a la Javeriana",
                         "Es solo ir a la javeriana",
                         i+1,

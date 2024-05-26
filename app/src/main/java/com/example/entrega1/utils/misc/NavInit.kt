@@ -5,6 +5,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.entrega1.turista.AffiliateActivity
 import com.example.entrega1.turista.HomeActivity
@@ -14,7 +15,9 @@ import com.example.entrega1.R
 import com.example.entrega1.empresa.CreateOfferActivity
 import com.example.entrega1.empresa.CreatePlaceActivity
 import com.example.entrega1.empresa.HomeEnterpriseActivity
+import com.example.entrega1.login.MainActivity
 import com.example.entrega1.turista.MapTouristActivity
+import com.example.entrega1.utils.data.LoginStub
 import com.example.entrega1.utils.schemas.User
 import com.google.android.material.navigation.NavigationView
 
@@ -92,6 +95,13 @@ class NavInit {
 
                 R.id.crearOferta -> {
                     val intent = Intent(context.applicationContext, CreateOfferActivity::class.java)
+                    intent.putExtra("user", user)
+                    context.startActivity( intent )
+                }
+                R.id.logout -> {
+                    // Cierra la sesión del usuario
+                    LoginStub.logoutUser()
+                    val intent = Intent(context.applicationContext, MainActivity::class.java)
                     intent.putExtra("user", user)
                     context.startActivity( intent )
                 }

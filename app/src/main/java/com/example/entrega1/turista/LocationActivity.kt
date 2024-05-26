@@ -139,7 +139,7 @@ class LocationActivity : AppCompatActivity() {
         }
 
         if (actualUser == null) {
-            actualUser = LoginStub.anonymousUser
+            actualUser = User("anonymous@example.com", null, "Anonymous", "user")
             Log.i("USER HUELLA", "El usuario se ha loggeado con la huella, hay que hacer eso")
         }
 

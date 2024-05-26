@@ -1,39 +1,77 @@
 package com.example.entrega1.utils.data
 
+import android.util.Log
 import com.example.entrega1.utils.schemas.User
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.toxicbakery.bcrypt.Bcrypt
 
-class LoginStub {
-    companion object Login {
-        private val users : ArrayList<User> = ArrayList()
-        private val anonymousPassword = Bcrypt.hash("123", 10)
-        val anonymousUser : User = User("anonymous@example.com", anonymousPassword, "Anonymous", "user")
+object LoginStub {
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val db = Firebase.firestore
 
-        fun Login() {
-            users.add(User("si",Bcrypt.hash("si", 10) , "si", "Empresa"))
-            users.add(User("no", Bcrypt.hash("no", 10), "no", "Turista"))
-        }
+    fun createUser(email: String, password: String, name: String, type: String, callback: (Boolean) -> Unit) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val newUser = User(email, Bcrypt.hash(password, 10), name, type)
+                    db.collection("users").document(email).set(newUser)
+                        .addOnSuccessListener {
+                            Log.i("LoginStub", "Usuario creado.")
+                            callback(true)
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e("LoginStub", "Error creando el usuario n FireStore", e)
+                            callback(false)
+                        }
+                } else {
+                    Log.e("LoginStub", "Error creando el usuario en FirebaseAuth", task.exception)
+                    callback(false)
+                }
+            }
+    }
 
-        private fun findUser(email: String) : Boolean {
-            return users.find {
-                it.email == email
-            } != null
-        }
+    fun loginUser(email: String, password: String, callback: (User?) -> Unit) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    db.collection("users").document(email).get()
+                        .addOnSuccessListener { document ->
+                            val user = document.toObject(User::class.java)
+                            if (user != null && user.password != null && Bcrypt.verify(password, user.password)) {
+                                Log.i("LoginStub", "Sesión iniciada.")
+                                callback(user)
+                            } else {
+                                Log.e("LoginStub", "Falló la verificación de la contraseña")
+                                callback(null)
+                            }
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e("LoginStub", "Error buscando usuario de Firestore", e)
+                            callback(null)
+                        }
+                } else {
+                    Log.e("LoginStub", "Error entrando con FirebaseAuth", task.exception)
+                    callback(null)
+                }
+            }
+    }
 
-        fun createUser(email : String, password : String, name: String, type: String) : Boolean {
-            if (findUser(email)) return false
-
-            val newPassword = Bcrypt.hash(password, 10)
-
-            users.add(User(email, newPassword, name, type))
-            return true
-        }
-
-        fun loginUser(email: String, password: String) : User? {
-            val user : User = users.find { it.email == email } ?: return null
-            if (user.password == null) return null
-            return if (!Bcrypt.verify(password, user.password)) null
-            else user
-        }
+    fun loginAnonymously(callback: (Boolean, User?) -> Unit) {
+        auth.signInAnonymously()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val anonymousUser = User("anonymous@example.com", null, "Anonymous", "user")
+                    Log.i("LoginStub", "Sesión anónima iniciada.")
+                    callback(true, anonymousUser)
+                } else {
+                    Log.e("LoginStub", "Error entrando anónimamente", task.exception)
+                    callback(false, null)
+                }
+            }
+    }
+    fun logoutUser() {
+        FirebaseAuth.getInstance().signOut()
     }
 }

@@ -3,6 +3,7 @@ package com.example.entrega1.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        LoginStub.Login()
+
         executor = ContextCompat.getMainExecutor(this)
 
         biometricPrompt = BiometricPrompt(
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                     super.onAuthenticationSucceeded(result)
-                    startActivity( Intent(applicationContext, HomeActivity::class.java) )
+                    startActivity(Intent(applicationContext, HomeActivity::class.java))
                 }
 
                 override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
@@ -60,36 +61,51 @@ class MainActivity : AppCompatActivity() {
 
         biometricPrompt.authenticate(promptInfo)
 
-
-        val sigInButton = findViewById<Button>(R.id.iniciarSesion)
+        val signInButton = findViewById<Button>(R.id.iniciarSesion)
         val emailInput = findViewById<EditText>(R.id.email)
         val passwordInput = findViewById<EditText>(R.id.password)
         val createAccountButton = findViewById<Button>(R.id.createAccount)
-
+        val anonymousLoginButton = findViewById<Button>(R.id.anonymousLogin)
 
         createAccountButton.setOnClickListener {
-            startActivity( Intent(applicationContext, CreateAccountActivity::class.java) )
+            startActivity(Intent(applicationContext, CreateAccountActivity::class.java))
         }
 
-        sigInButton.setOnClickListener {
-            val user : User? = LoginStub.loginUser(
-                emailInput.text.toString(),
-                passwordInput.text.toString()
-            )
+        signInButton.setOnClickListener {
+            val email = emailInput.text.toString()
+            val password = passwordInput.text.toString()
 
-            if (user == null) {
-                Toast.makeText(applicationContext, "Ups, alguna de tu información no es correcta", Toast.LENGTH_SHORT).show()
-                emailInput.setText("")
-                passwordInput.setText("")
-            } else {
-                var intent : Intent
-                if (user.type.toString() == "Turista") {
-                    intent = Intent(applicationContext, HomeActivity::class.java)
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(applicationContext, "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            LoginStub.loginUser(email, password) { user ->
+                if (user == null) {
+                    Toast.makeText(applicationContext, "Ups, alguna de tu información no es correcta", Toast.LENGTH_SHORT).show()
+                    emailInput.setText("")
+                    passwordInput.setText("")
                 } else {
-                    intent = Intent(applicationContext, HomeEnterpriseActivity::class.java)
+                    val intent: Intent = if (user.type == "Turista") {
+                        Intent(applicationContext, HomeActivity::class.java)
+                    } else {
+                        Intent(applicationContext, HomeEnterpriseActivity::class.java)
+                    }
+                    intent.putExtra("user", user)
+                    startActivity(intent)
                 }
-                intent.putExtra("user", user)
-                startActivity(intent)
+            }
+        }
+
+        anonymousLoginButton.setOnClickListener {
+            LoginStub.loginAnonymously { success, user ->
+                if (success && user != null) {
+                    val intent = Intent(applicationContext, HomeActivity::class.java)
+                    intent.putExtra("user", user)
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(applicationContext, "Error al iniciar sesión anónimamente", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

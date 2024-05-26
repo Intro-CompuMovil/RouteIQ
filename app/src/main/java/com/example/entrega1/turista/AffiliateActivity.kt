@@ -24,7 +24,8 @@ class AffiliateActivity : AppCompatActivity() {
         var user = intent.getParcelableExtra<User>("user")
 
         if (user == null) {
-            user = LoginStub.anonymousUser
+            // Maneja el caso en que el usuario sea anónimo
+            user = User("anonymous@example.com", null, "Anonymous", "user")
             Log.i("USER HUELLA", "El usuario se ha loggeado con la huella, hay que hacer eso")
         }
 

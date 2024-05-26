@@ -33,4 +33,8 @@
             android:title="¡Captura tus lugares!"
             android:icon="@drawable/camera"
             />
+    <item
+            android:id="@+id/logout"
+            android:title="Cerrar sesión" />
+
 </menu>
