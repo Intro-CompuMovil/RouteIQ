@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import com.example.entrega1.R
 import com.example.entrega1.databinding.ActivityMapTouristBinding
 import com.example.entrega1.utils.data.Places
+import com.example.entrega1.utils.data.UserProvider
 import com.example.entrega1.utils.schemas.Place
 import com.example.entrega1.utils.schemas.User
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -62,7 +63,7 @@ class MapTouristActivity : AppCompatActivity() {
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
-        user = intent.getParcelableExtra("user")!!
+        user = UserProvider.actualUser!!
 
         Configuration.getInstance().userAgentValue = applicationContext.packageName
 

@@ -9,6 +9,7 @@ import com.example.entrega1.R
 import com.example.entrega1.databinding.ActivityCreateTourBinding
 import com.example.entrega1.databinding.ActivityCreateTourOfferBinding
 import com.example.entrega1.utils.data.Tours
+import com.example.entrega1.utils.data.UserProvider
 import com.example.entrega1.utils.schemas.Tour
 import com.example.entrega1.utils.schemas.User
 
@@ -23,7 +24,7 @@ class CreateTourActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        val user = intent.getParcelableExtra<User>("user")
+        val user = UserProvider.actualUser
 
         binding.createTour.setOnClickListener {
             if (binding.tourTitle.text.toString() == "") {
@@ -41,13 +42,12 @@ class CreateTourActivity : AppCompatActivity() {
                     user!!,
                     binding.tourTitle.text.toString(),
                     binding.tourDescription.text.toString(),
-                    0, // Se cambia en el companion object
+                    "0", // Se cambia en el companion object
                     false
                 )
             )
 
             val intent = Intent(applicationContext, HomeActivity::class.java)
-            intent.putExtra("user", user)
             startActivity(intent)
         }
     }

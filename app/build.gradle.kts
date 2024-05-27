@@ -63,4 +63,6 @@ dependencies {
     implementation ("com.google.firebase:firebase-auth-ktx:23.0.0")
     implementation ("com.google.firebase:firebase-firestore-ktx")
     implementation ("com.google.firebase:firebase-storage-ktx")
+    implementation("com.google.firebase:firebase-database")
+
 }

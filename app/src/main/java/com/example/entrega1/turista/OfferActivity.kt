@@ -13,8 +13,12 @@ import com.example.entrega1.utils.adapters.OffersAdapter
 import com.example.entrega1.utils.data.LoginStub
 import com.example.entrega1.utils.data.Offers
 import com.example.entrega1.utils.data.Tours
+import com.example.entrega1.utils.data.UserProvider
 import com.example.entrega1.utils.misc.NavInit
+import com.example.entrega1.utils.schemas.Tour
 import com.example.entrega1.utils.schemas.User
+import com.google.firebase.firestore.proto.TargetOuterClass
+import kotlinx.coroutines.*
 
 class OfferActivity : AppCompatActivity() {
 
@@ -26,7 +30,7 @@ class OfferActivity : AppCompatActivity() {
         setContentView(R.layout.activity_offer)
 
 
-        var user = intent.getParcelableExtra<User>("user")
+        var user = UserProvider.actualUser
 
         if (user == null) {
             // Maneja el caso en que el usuario sea anónimo
@@ -48,34 +52,37 @@ class OfferActivity : AppCompatActivity() {
         val agencyArr = ArrayList<String>()
         val descriptionArr = ArrayList<String>()
         val priceArr = ArrayList<String>()
-        val mappedIds = ArrayList<Int>()
+        val mappedIds = ArrayList<String>()
         //Offers.seed() // Añade datos de pruieba
 
         Log.i("OFFER", Offers.offers.toString())
 
-        for (offer in Offers.offers) {
-            val tour = Tours.getById(offer.tourId)
-            if (tour?.user?.email == user.email && !offer.accepted) {
-                agencyArr.add(offer.agency.name)
-                descriptionArr.add(offer.comments)
-                priceArr.add(offer.amount.toString())
-                mappedIds.add(offer.id)
+        Offers.getOffers {
+            for (offer in Offers.offers) {
+                // TODO: De alguna u otra manera toca hacer esperar por esto
+                val tour : Tour? = Tours.getByIdTask(offer.tourId)
+
+                if (tour?.user?.email == user.email && !offer.accepted) {
+                    agencyArr.add(offer.agency.name)
+                    descriptionArr.add(offer.comments)
+                    priceArr.add(offer.amount.toString())
+                    mappedIds.add(offer.id)
+                }
             }
-        }
 
-        val adapter = OffersAdapter(this, agencyArr, descriptionArr, priceArr)
-        listOffers.adapter = adapter
+            val adapter = OffersAdapter(this, agencyArr, descriptionArr, priceArr)
+            listOffers.adapter = adapter
 
-        createTour.setOnClickListener {
-            val intent = Intent(applicationContext, CreateTourActivity::class.java)
-            intent.putExtra("user", user)
-            startActivity(intent)
-        }
+            createTour.setOnClickListener {
+                val intent = Intent(applicationContext, CreateTourActivity::class.java)
+                startActivity(intent)
+            }
 
-        listOffers.setOnItemClickListener { parent, view, position, id ->
-            val intent = Intent(applicationContext, ConfirmOfferActivity::class.java)
-            intent.putExtra("offerId", mappedIds[position])
-            startActivity(intent)
+            listOffers.setOnItemClickListener { parent, view, position, id ->
+                val intent = Intent(applicationContext, ConfirmOfferActivity::class.java)
+                intent.putExtra("offerId", mappedIds[position])
+                startActivity(intent)
+            }
         }
     }
 

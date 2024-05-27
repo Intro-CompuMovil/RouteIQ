@@ -56,53 +56,44 @@ class NavInit {
             when (it.itemId) {
                 R.id.homeIcon -> {
                     val intent = Intent(context.applicationContext, HomeActivity::class.java)
-                    intent.putExtra("user", user)
                     context.startActivity( intent )
                 }
                 R.id.offerIcon -> {
                     val intent = Intent(context.applicationContext, OfferActivity::class.java)
-                    intent.putExtra("user", user)
                     context.startActivity( intent )
                 }
                 R.id.mapIcon -> {
                     val intent = Intent(context.applicationContext, MapTouristActivity::class.java)
-                    intent.putExtra("user", user)
                     context.startActivity( intent )
                 }
                 R.id.affiliatesIcon -> {
                     val intent = Intent(context.applicationContext, AffiliateActivity::class.java)
-                    intent.putExtra("user", user)
                     context.startActivity( intent )
                 }
 
                 R.id.cameraIcon -> {
                     val intent = Intent(context.applicationContext, LocationActivity::class.java)
-                    intent.putExtra("user", user)
                     context.startActivity( intent )
                 }
 
                 R.id.homeIconEnterprise -> {
                     val intent = Intent(context.applicationContext, HomeEnterpriseActivity::class.java)
-                    intent.putExtra("user", user)
                     context.startActivity( intent )
                 }
 
                 R.id.createPlace -> {
                     val intent = Intent(context.applicationContext, CreatePlaceActivity::class.java)
-                    intent.putExtra("user", user)
                     context.startActivity( intent )
                 }
 
                 R.id.crearOferta -> {
                     val intent = Intent(context.applicationContext, CreateOfferActivity::class.java)
-                    intent.putExtra("user", user)
                     context.startActivity( intent )
                 }
                 R.id.logout -> {
                     // Cierra la sesión del usuario
                     LoginStub.logoutUser()
                     val intent = Intent(context.applicationContext, MainActivity::class.java)
-                    intent.putExtra("user", user)
                     context.startActivity( intent )
                 }
             }

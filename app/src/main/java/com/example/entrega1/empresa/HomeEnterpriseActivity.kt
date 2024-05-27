@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.entrega1.R
 import com.example.entrega1.databinding.ActivityHomeEnterpriseBinding
+import com.example.entrega1.utils.data.UserProvider
 import com.example.entrega1.utils.misc.NavInit
 import com.example.entrega1.utils.schemas.User
 
@@ -20,7 +21,7 @@ class HomeEnterpriseActivity : AppCompatActivity() {
         binding = ActivityHomeEnterpriseBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var user = intent.getParcelableExtra<User>("user")
+        var user = UserProvider.actualUser
         Log.i("USERRRR", user.toString())
         if (user == null) {
             // Maneja el caso en que el usuario sea anónimo

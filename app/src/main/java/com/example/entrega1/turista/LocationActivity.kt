@@ -38,6 +38,7 @@ import android.location.Geocoder
 import android.widget.Toast
 import com.example.entrega1.databinding.ActivityCreatePlaceBinding
 import com.example.entrega1.databinding.ActivityLocationBinding
+import com.example.entrega1.utils.data.UserProvider
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
@@ -98,7 +99,7 @@ class LocationActivity : AppCompatActivity() {
         binding = ActivityLocationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        actualUser = intent.getParcelableExtra<User>("user")!!
+        actualUser = UserProvider.actualUser!!
 
         //toggle = NavInit().initNavigationBar(actualUser, R.id.navViewEnterprise, R.id.drawerLayoutEnterprise, this)
 

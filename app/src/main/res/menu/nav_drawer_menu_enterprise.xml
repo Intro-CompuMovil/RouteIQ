@@ -20,4 +20,9 @@
         android:title="Crear lugar"
         android:icon="@drawable/map" />
 
+    <item
+            android:icon="@drawable/person"
+            android:id="@+id/logout"
+            android:title="Cerrar sesión" />
+
 </menu>

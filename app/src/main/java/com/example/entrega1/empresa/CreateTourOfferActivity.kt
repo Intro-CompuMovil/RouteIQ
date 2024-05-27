@@ -14,6 +14,7 @@ import com.example.entrega1.utils.data.Offers
 import com.example.entrega1.utils.data.Places
 import com.example.entrega1.utils.data.PlacesRender
 import com.example.entrega1.utils.data.Tours
+import com.example.entrega1.utils.data.UserProvider
 import com.example.entrega1.utils.misc.DatePicker
 import com.example.entrega1.utils.roadRender.RoadRenderActivity
 import com.example.entrega1.utils.schemas.Agency
@@ -36,13 +37,15 @@ class CreateTourOfferActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        val tourID: Int = intent.getBundleExtra("tourInfo")?.getInt("tourId")!!
-        val user : User = intent.getBundleExtra("tourInfo")?.getParcelable("user")!!
+        val tourID: String = intent.getBundleExtra("tourInfo")?.getString("tourId")!!
+        val user : User = UserProvider.actualUser!!
 
-        val tour: Tour? = Tours.getById(tourID)
-
-        binding.tourTitle.text = tour?.title
-        binding.tourDesc.text = tour?.description
+        var tour: Tour?
+        Tours.getById(tourID) {
+            tour = it
+            binding.tourTitle.text = tour?.title
+            binding.tourDesc.text = tour?.description
+        }
 
         binding.chooseDate.setOnClickListener {
             val newFragment = DatePicker.newInstance { view, year, month, dayOfMonth ->
@@ -105,13 +108,12 @@ class CreateTourOfferActivity : AppCompatActivity() {
                     choosenDate!!,
                     tourID,
                     PlacesRender.getPlaces(),
-                    0 ,// Este valor se cambia en el companion object,
+                    "0" ,// Este valor se cambia en el companion object,
                     false
                 )
             )
 
             val intent = Intent(applicationContext, HomeEnterpriseActivity::class.java)
-            intent.putExtra("user", user);
             startActivity(intent)
         }
 

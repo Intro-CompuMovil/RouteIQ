@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.entrega1.R
 import com.example.entrega1.utils.data.Agencies
 import com.example.entrega1.utils.data.LoginStub
+import com.example.entrega1.utils.data.UserProvider
 import com.example.entrega1.utils.misc.NavInit
 import com.example.entrega1.utils.schemas.User
 
@@ -21,7 +22,7 @@ class AffiliateActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_affiliate)
 
-        var user = intent.getParcelableExtra<User>("user")
+        var user = UserProvider.actualUser
 
         if (user == null) {
             // Maneja el caso en que el usuario sea anónimo

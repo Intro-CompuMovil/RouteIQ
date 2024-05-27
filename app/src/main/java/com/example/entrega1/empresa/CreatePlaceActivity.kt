@@ -16,6 +16,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.entrega1.R
 import com.example.entrega1.databinding.ActivityCreatePlaceBinding
 import com.example.entrega1.utils.data.Places
+import com.example.entrega1.utils.data.UserProvider
 import com.example.entrega1.utils.misc.NavInit
 import com.example.entrega1.utils.schemas.Place
 import com.example.entrega1.utils.schemas.User
@@ -61,7 +62,7 @@ class CreatePlaceActivity : AppCompatActivity() {
         binding = ActivityCreatePlaceBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        actualUser = intent.getParcelableExtra<User>("user")!!
+        actualUser = UserProvider.actualUser!!
 
         toggle = NavInit().initNavigationBar(actualUser, R.id.navViewEnterprise, R.id.drawerLayoutEnterprise, this)
 

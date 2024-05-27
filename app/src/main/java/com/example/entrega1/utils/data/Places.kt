@@ -9,7 +9,7 @@ class Places {
         private val userPlaces : MutableMap<String, HashSet<Place>> = mutableMapOf()
 
         fun addPlaceUser(user: User, place: Place) {
-            if (userPlaces[user.email!!] == null) userPlaces[user.email] = HashSet()
+            if (userPlaces[user.email!!] == null) userPlaces[user.email!!] = HashSet()
 
             userPlaces[user.email]!!.add(place)
         }

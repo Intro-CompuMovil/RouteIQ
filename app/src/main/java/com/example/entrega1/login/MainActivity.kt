@@ -13,6 +13,7 @@ import com.example.entrega1.turista.HomeActivity
 import com.example.entrega1.R
 import com.example.entrega1.empresa.HomeEnterpriseActivity
 import com.example.entrega1.utils.data.LoginStub
+import com.example.entrega1.utils.data.UserProvider
 import com.example.entrega1.utils.schemas.User
 import java.util.concurrent.Executor
 
@@ -86,12 +87,12 @@ class MainActivity : AppCompatActivity() {
                     emailInput.setText("")
                     passwordInput.setText("")
                 } else {
+                    UserProvider.setActualUser(user.firebaseUid!!)
                     val intent: Intent = if (user.type == "Turista") {
                         Intent(applicationContext, HomeActivity::class.java)
                     } else {
                         Intent(applicationContext, HomeEnterpriseActivity::class.java)
                     }
-                    intent.putExtra("user", user)
                     startActivity(intent)
                 }
             }
@@ -100,8 +101,8 @@ class MainActivity : AppCompatActivity() {
         anonymousLoginButton.setOnClickListener {
             LoginStub.loginAnonymously { success, user ->
                 if (success && user != null) {
+                    UserProvider.actualUser = user
                     val intent = Intent(applicationContext, HomeActivity::class.java)
-                    intent.putExtra("user", user)
                     startActivity(intent)
                 } else {
                     Toast.makeText(applicationContext, "Error al iniciar sesión anónimamente", Toast.LENGTH_SHORT).show()
