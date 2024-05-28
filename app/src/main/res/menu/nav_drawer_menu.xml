@@ -34,6 +34,10 @@
             android:icon="@drawable/camera"
             />
     <item
+            android:id="@+id/updateUser"
+            android:title="Editar usuario"
+            android:icon="@drawable/ic_launcher_foreground" />
+    <item
             android:icon="@drawable/person"
             android:id="@+id/logout"
             android:title="Cerrar sesión" />

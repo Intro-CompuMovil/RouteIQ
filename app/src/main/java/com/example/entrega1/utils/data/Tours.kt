@@ -2,9 +2,14 @@ package com.example.entrega1.utils.data
 
 import android.util.Log
 import android.widget.ArrayAdapter
+import com.example.entrega1.utils.schemas.Offer
 import com.example.entrega1.utils.schemas.Tour
 import com.example.entrega1.utils.schemas.User
 import com.google.android.gms.tasks.Task
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.getValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -37,6 +42,20 @@ class Tours {
                     callback(it.map { it.value } as ArrayList<Tour>)
                 } else callback(null)
             }
+        }
+
+        fun watchTours(callback: (ArrayList<Tour>?) -> Unit) {
+            Offers.db.watchData("tours", object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val tours = snapshot.getValue<HashMap<String, Tour>>()?.map { it.value } as ArrayList<Tour>
+                    callback(tours)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    callback(null)
+                }
+
+            })
         }
 
         fun getById(id: String, callback : (Tour?) -> Unit) {

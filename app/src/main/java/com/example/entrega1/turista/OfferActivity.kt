@@ -58,7 +58,7 @@ class OfferActivity : AppCompatActivity() {
 
         Log.i("OFFER", Offers.offers.toString())
 
-        Offers.getOffers {
+        Offers.watchOffers {
 
             Tours.getTours { t ->
                 val offersList = it
@@ -96,18 +96,6 @@ class OfferActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
             }
-
-            /*for (offer in Offers.offers) {
-                // TODO: De alguna u otra manera toca hacer esperar por esto
-                val tour : Tour? = Tours.getByIdTask(offer.tourId)
-
-                if (tour?.user?.email == user.email && !offer.accepted) {
-                    agencyArr.add(offer.agency.name)
-                    descriptionArr.add(offer.comments)
-                    priceArr.add(offer.amount.toString())
-                    mappedIds.add(offer.id)
-                }
-            }*/
         }
     }
 

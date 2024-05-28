@@ -5,7 +5,7 @@ import android.os.Parcelable
 
 data class User (
     val firebaseUid: String? = "",
-    val email: String? = "",
-    val name: String? = "",
+    var email: String? = "",
+    var name: String? = "",
     val type: String? = ""
 )

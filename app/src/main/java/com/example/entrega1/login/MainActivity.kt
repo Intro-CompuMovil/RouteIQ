@@ -1,20 +1,26 @@
 package com.example.entrega1.login
 
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
+import android.Manifest
 import com.example.entrega1.turista.HomeActivity
 import com.example.entrega1.R
 import com.example.entrega1.empresa.HomeEnterpriseActivity
 import com.example.entrega1.utils.data.LoginStub
 import com.example.entrega1.utils.data.UserProvider
 import com.example.entrega1.utils.schemas.User
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import java.util.concurrent.Executor
 
 class MainActivity : AppCompatActivity() {
@@ -22,11 +28,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var executor: Executor
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { isGranted: Boolean ->
+        if (!isGranted) {
+            Toast.makeText(this, "No te avisaremos de las ofertas", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        askNotificationPermission()
         executor = ContextCompat.getMainExecutor(this)
 
         biometricPrompt = BiometricPrompt(
@@ -112,6 +125,21 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     Toast.makeText(applicationContext, "Error al iniciar sesión anónimamente", Toast.LENGTH_SHORT).show()
                 }
+            }
+        }
+    }
+
+
+    private fun askNotificationPermission() {
+        // This is only necessary for API level >= 33 (TIRAMISU)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            } else {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
         }
     }

@@ -17,6 +17,7 @@ import com.example.entrega1.empresa.CreatePlaceActivity
 import com.example.entrega1.empresa.HomeEnterpriseActivity
 import com.example.entrega1.login.MainActivity
 import com.example.entrega1.turista.MapTouristActivity
+import com.example.entrega1.turista.UpdateUserActivity
 import com.example.entrega1.utils.data.LoginStub
 import com.example.entrega1.utils.data.UserProvider
 import com.example.entrega1.utils.schemas.User
@@ -96,6 +97,10 @@ class NavInit {
                     LoginStub.logoutUser()
                     UserProvider.actualUser = null
                     val intent = Intent(context.applicationContext, MainActivity::class.java)
+                    context.startActivity( intent )
+                }
+                R.id.updateUser -> {
+                    val intent = Intent(context.applicationContext, UpdateUserActivity::class.java)
                     context.startActivity( intent )
                 }
             }

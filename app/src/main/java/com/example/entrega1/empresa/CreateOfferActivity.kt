@@ -33,7 +33,7 @@ class CreateOfferActivity : AppCompatActivity() {
 
 
         var tours: ArrayList<Tour>?
-        Tours.getTours {
+        Tours.watchTours {
             tours = it
             val usersNames : ArrayList<String> = ArrayList()
             val descriptions: ArrayList<String> = ArrayList()

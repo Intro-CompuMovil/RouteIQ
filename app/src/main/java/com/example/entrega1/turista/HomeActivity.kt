@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.entrega1.R
@@ -12,6 +13,8 @@ import com.example.entrega1.utils.data.LoginStub
 import com.example.entrega1.utils.data.UserProvider
 import com.example.entrega1.utils.misc.NavInit
 import com.example.entrega1.utils.schemas.User
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var toggleButton: ActionBarDrawerToggle

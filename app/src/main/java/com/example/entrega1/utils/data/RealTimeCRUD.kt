@@ -1,9 +1,6 @@
 package com.example.entrega1.utils.data
 
 import android.util.Log
-import com.example.entrega1.utils.schemas.User
-import com.google.android.gms.tasks.Task
-import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.getValue

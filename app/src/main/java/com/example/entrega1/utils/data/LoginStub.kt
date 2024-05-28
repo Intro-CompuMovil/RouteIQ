@@ -3,6 +3,8 @@ package com.example.entrega1.utils.data
 import android.util.Log
 import com.example.entrega1.utils.schemas.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.userProfileChangeRequest
 
 object LoginStub {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -43,6 +45,26 @@ object LoginStub {
                     callback(null)
                 }
             }
+    }
+
+    fun updateUser(user: FirebaseUser, email: String, name: String, password: String, nativeUser: User ,callback: (Boolean) -> Unit) {
+        user.verifyBeforeUpdateEmail(email).addOnCompleteListener { em ->
+            if (em.isSuccessful) {
+                user.updatePassword(password).addOnCompleteListener{ psw ->
+                    if (psw.isSuccessful) {
+                        nativeUser.email = email
+                        nativeUser.name = name
+                        db.writeData("users/${nativeUser.firebaseUid}", nativeUser) {
+                            if (it != null) callback(true)
+                            else callback(false)
+                        }
+                    }
+                    else callback(false)
+                }
+            } else callback(false)
+        }.addOnFailureListener {
+            Log.i("[UPDATE USER]", it.toString())
+        }
     }
 
     fun loginAnonymously(callback: (Boolean, User?) -> Unit) {

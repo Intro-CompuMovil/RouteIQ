@@ -22,6 +22,8 @@ import com.example.entrega1.utils.schemas.Offer
 import com.example.entrega1.utils.schemas.Place
 import com.example.entrega1.utils.schemas.Tour
 import com.example.entrega1.utils.schemas.User
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import java.util.Calendar
 import java.util.Date
 

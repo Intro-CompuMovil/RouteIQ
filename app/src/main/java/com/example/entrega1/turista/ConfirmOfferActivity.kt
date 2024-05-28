@@ -53,7 +53,7 @@ class ConfirmOfferActivity : AppCompatActivity() {
                 Tours.approveTourById(offer!!.tourId)
                 binding.acceptOffer.isEnabled = false
 
-                Toast.makeText(applicationContext, "Aceptaste una oferta", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "Contacta con la agencia", Toast.LENGTH_SHORT).show()
             }
 
             binding.denyOffer.setOnClickListener {
