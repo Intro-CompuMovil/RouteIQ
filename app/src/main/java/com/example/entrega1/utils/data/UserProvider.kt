@@ -9,9 +9,13 @@ class UserProvider {
         var actualUser : User? = null
         private val database : RealTimeCRUD = RealTimeCRUD()
 
-        fun setActualUser(uid: String) {
+        fun setActualUser(uid: String, callback: (Boolean) -> Unit) {
             database.readData<User>("users/${uid}") {
-                actualUser = it
+                if (it == null) callback(false)
+                else {
+                    actualUser = it
+                    callback(true)
+                }
             }
         }
     }

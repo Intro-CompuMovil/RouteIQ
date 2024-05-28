@@ -7,10 +7,12 @@ import android.widget.Toast
 import com.example.entrega1.R
 import com.example.entrega1.databinding.ActivityConfirmOfferBinding
 import com.example.entrega1.utils.data.Offers
+import com.example.entrega1.utils.data.Places
 import com.example.entrega1.utils.data.PlacesRender
 import com.example.entrega1.utils.data.Tours
 import com.example.entrega1.utils.roadRender.RoadRenderActivity
 import com.example.entrega1.utils.schemas.Offer
+import com.example.entrega1.utils.schemas.Place
 
 class ConfirmOfferActivity : AppCompatActivity() {
 
@@ -24,9 +26,19 @@ class ConfirmOfferActivity : AppCompatActivity() {
         PlacesRender.clearPlaces()
 
         var offer : Offer? = null
-        Offers.findById(intent.getIntExtra("offerId", 0).toString()) {
+        Offers.findById(intent.getStringExtra("offerId")!!) {
             offer = it
-            PlacesRender.setPlaces(offer?.places!!)
+
+            Places.getPlacesFromUser(offer?.agency?.uid!!) { agencyPlaces ->
+                if (agencyPlaces != null) {
+                    PlacesRender.setPlaces(
+                        agencyPlaces.filter { p ->
+                            offer?.places?.find { offP -> offP == p.firebaseUid!! }  != null
+                        } as ArrayList<Place>
+                    )
+                }
+                //PlacesRender.setPlaces(offer?.places!!)
+            }
 
             binding.offerCost.text = offer!!.amount.toString()
             binding.offerDate.text = offer!!.date.toString()
@@ -37,7 +49,7 @@ class ConfirmOfferActivity : AppCompatActivity() {
             }
 
             binding.acceptOffer.setOnClickListener {
-                Offers.acceptOfferById(intent.getIntExtra("offerId", 0).toString())
+                Offers.acceptOfferById(intent.getStringExtra("offerId")!!)
                 Tours.approveTourById(offer!!.tourId)
                 binding.acceptOffer.isEnabled = false
 

@@ -57,25 +57,25 @@ class CreateTourOfferActivity : AppCompatActivity() {
             newFragment.show(supportFragmentManager, "datePicker")
         }
 
-        val userPlaces = Places.getPlacesFromUser(user)
+        Places.getPlacesFromUser(user) { userPlaces ->
+            if (userPlaces != null) {
+                for (place in userPlaces) {
+                    val newCheck: CheckBox = CheckBox(this)
+                    newCheck.setText("${place.title}  ${place.description}")
+                    newCheck.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT)
 
-        if (userPlaces != null) {
-            for (place in userPlaces) {
-                val newCheck: CheckBox = CheckBox(this)
-                newCheck.setText("${place.title}  ${place.description}")
-                newCheck.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT)
+                    newCheck.setOnCheckedChangeListener { buttonView, isChecked ->
+                        if (!isChecked) PlacesRender.deletePlace(place)
+                        else PlacesRender.addPlace(place)
 
-                newCheck.setOnCheckedChangeListener { buttonView, isChecked ->
-                    if (!isChecked) PlacesRender.deletePlace(place)
-                    else PlacesRender.addPlace(place)
+                        Log.i("TO RENDER", PlacesRender.printPlaces())
+                    }
 
-                    Log.i("TO RENDER", PlacesRender.printPlaces())
+                    binding.placesOptions.addView(newCheck)
                 }
-
-                binding.placesOptions.addView(newCheck)
+            } else {
+                Toast.makeText(this, "Ups, no tienes lugares", Toast.LENGTH_SHORT).show()
             }
-        } else {
-            Toast.makeText(this, "Ups, no tienes lugares", Toast.LENGTH_SHORT).show()
         }
 
 
@@ -102,12 +102,12 @@ class CreateTourOfferActivity : AppCompatActivity() {
 
             Offers.addOffer(
                 Offer(
-                    Agency(user.name!!, user.email!!),
+                    Agency(user.name!!, user.email!!, user.firebaseUid),
                     binding.cost.text.toString().toDouble(),
                     binding.comments.text.toString(),
                     choosenDate!!,
                     tourID,
-                    PlacesRender.getPlaces(),
+                    PlacesRender.getPlacesUids(),
                     "0" ,// Este valor se cambia en el companion object,
                     false
                 )

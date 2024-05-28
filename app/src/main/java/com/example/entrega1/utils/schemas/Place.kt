@@ -1,12 +1,13 @@
 package com.example.entrega1.utils.schemas
 
 import android.graphics.Bitmap
-import org.osmdroid.util.GeoPoint
+import android.net.Uri
 
 data class Place(
-    val location: GeoPoint = GeoPoint(0.0, 0.0),
+    var firebaseUid : String? = "",
+    val location: Location = Location(0.0, 0.0),
     val title: String = "",
     val locationDescription: String = "",
     val description: String = "",
-    val bitmap: Bitmap? = null
+    var hasImage: Boolean = false
 )

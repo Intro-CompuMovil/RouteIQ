@@ -35,10 +35,12 @@ import android.app.UiModeManager
 import android.content.Context
 import android.location.Address
 import android.location.Geocoder
+import android.provider.MediaStore.Audio.Media
 import android.widget.Toast
 import com.example.entrega1.databinding.ActivityCreatePlaceBinding
 import com.example.entrega1.databinding.ActivityLocationBinding
 import com.example.entrega1.utils.data.UserProvider
+import com.example.entrega1.utils.schemas.Location
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
@@ -47,6 +49,7 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.TilesOverlay
+import java.io.ByteArrayOutputStream
 
 
 class LocationActivity : AppCompatActivity() {
@@ -57,7 +60,7 @@ class LocationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLocationBinding
     private var longPressedMarker: Marker? = null
     private lateinit var mapController : IMapController
-    private var selectedImage: Bitmap? = null
+    private var selectedImage: Uri? = null
 
     private val takePicture =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -124,15 +127,21 @@ class LocationActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            if (selectedImage == null) {
+                Toast.makeText(applicationContext, "Agrega una imagen", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val newPlace = Place(
-                longPressedMarker?.position!!,
+                null,
+                Location(longPressedMarker?.position!!.longitude, longPressedMarker?.position!!.latitude),
                 binding.placeNameUser.text.toString(),
                 longPressedMarker?.subDescription.toString(),
                 binding.placeDescriptionUser.text.toString(),
-                selectedImage
+                true
             )
 
-            Places.addPlaceUser(actualUser, newPlace)
+            Places.addPlaceUser(actualUser, newPlace, selectedImage)
             Log.i("PLACES", Places.printPlaces())
             Toast.makeText(baseContext, "Lugar añadido con exito", Toast.LENGTH_SHORT).show()
 
@@ -207,6 +216,8 @@ class LocationActivity : AppCompatActivity() {
         binding.placeNameUser.setText("")
         binding.placeDescriptionUser.setText("")
         longPressedMarker?.let { binding.osmMapUser.overlays.remove(it) }
+        selectedImage = null
+        imageVieww.setImageDrawable(resources.getDrawable(R.drawable.imagenmp))
         setInitialPoint()
     }
 
@@ -243,22 +254,15 @@ class LocationActivity : AppCompatActivity() {
     }
 
     private fun handleImageResult(data: Intent?) {
-        val extras = data?.extras
-        selectedImage = data?.extras?.get("data") as? Bitmap?
-        imageVieww.setImageBitmap(selectedImage)
+        selectedImage = getUriFromBitmap(baseContext, data?.extras?.get("data") as Bitmap)
+        Log.i("GALLERY [IMAGE]", selectedImage.toString())
+        imageVieww.setImageURI(selectedImage)
     }
 
     private fun handleGalleryImageResult(data: Intent?) {
         val imageUri = data?.data
-        try {
-            val inputStream: InputStream? = contentResolver.openInputStream(imageUri!!)
-            selectedImage = BitmapFactory.decodeStream(inputStream)
-            inputStream?.close()
-            imageVieww.setImageBitmap(selectedImage)
-        } catch (e: IOException) {
-            e.printStackTrace()
-            // Manejar cualquier error que pueda ocurrir al decodificar la imagen
-        }
+        selectedImage = imageUri
+        imageVieww.setImageURI(selectedImage)
     }
 
 
@@ -268,6 +272,14 @@ class LocationActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    private fun getUriFromBitmap(context: Context, bitmap: Bitmap) : Uri {
+        val bytes = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path = MediaStore.Images.Media.insertImage(context.contentResolver, bitmap, "userPic", null)
+        return Uri.parse(path)
+    }
+
     companion object {
         private const val REQUEST_EXTERNAL_STORAGE_PERMISSION = 101
         private const val REQUEST_CAMERA_PERMISSION = 102

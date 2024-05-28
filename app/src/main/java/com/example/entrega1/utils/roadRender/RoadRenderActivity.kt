@@ -75,7 +75,7 @@ class RoadRenderActivity : AppCompatActivity() {
             binding.mapOSM.controller.setZoom(18.0)
 
             for (point in PlacesRender.getPlaces()) {
-                createMarker(point.location, point.title, point.description, 0)?.let {
+                createMarker(point.location.getGeoPoint(), point.title, point.description, 0)?.let {
                     binding.mapOSM.overlays.add(it)
                 }
             }

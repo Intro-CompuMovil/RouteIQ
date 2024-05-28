@@ -8,7 +8,7 @@ data class Offer (
     val comments: String = "",
     val date : Date = Date(),
     val tourId : String = "",
-    val places: ArrayList<Place> = ArrayList(),
+    val places: ArrayList<String> = ArrayList(),
     var id: String = "",
     var accepted: Boolean = false
 )

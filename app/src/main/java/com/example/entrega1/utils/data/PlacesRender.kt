@@ -25,7 +25,7 @@ class PlacesRender {
         }
 
         fun getGeopointsPlaces() : ArrayList<GeoPoint> {
-            return placesToRender.map { it.location } as ArrayList<GeoPoint>
+            return placesToRender.map { it.location.getGeoPoint() } as ArrayList<GeoPoint>
         }
 
         fun getPlaces() : ArrayList<Place> {
@@ -34,6 +34,10 @@ class PlacesRender {
 
         fun setPlaces(places: ArrayList<Place>) {
             placesToRender = places
+        }
+
+        fun getPlacesUids(): ArrayList<String> {
+            return placesToRender.map { it -> it.firebaseUid } as ArrayList<String>
         }
     }
 

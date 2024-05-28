@@ -47,7 +47,7 @@ class AffiliateActivity : AppCompatActivity() {
 
             // Configurar imágenes y textos en los ImageView y TextView correspondientes
             findViewById<ImageView>(logoId).setImageResource(obtenerLogoId(index + 1))
-            findViewById<TextView>(mensajeId).text = agencia.message
+            findViewById<TextView>(mensajeId).text = agencia.email
         }
     }
 

@@ -18,6 +18,7 @@ import com.example.entrega1.empresa.HomeEnterpriseActivity
 import com.example.entrega1.login.MainActivity
 import com.example.entrega1.turista.MapTouristActivity
 import com.example.entrega1.utils.data.LoginStub
+import com.example.entrega1.utils.data.UserProvider
 import com.example.entrega1.utils.schemas.User
 import com.google.android.material.navigation.NavigationView
 
@@ -93,6 +94,7 @@ class NavInit {
                 R.id.logout -> {
                     // Cierra la sesión del usuario
                     LoginStub.logoutUser()
+                    UserProvider.actualUser = null
                     val intent = Intent(context.applicationContext, MainActivity::class.java)
                     context.startActivity( intent )
                 }

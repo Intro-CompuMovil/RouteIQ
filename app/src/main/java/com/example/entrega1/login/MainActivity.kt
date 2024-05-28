@@ -87,13 +87,18 @@ class MainActivity : AppCompatActivity() {
                     emailInput.setText("")
                     passwordInput.setText("")
                 } else {
-                    UserProvider.setActualUser(user.firebaseUid!!)
-                    val intent: Intent = if (user.type == "Turista") {
-                        Intent(applicationContext, HomeActivity::class.java)
-                    } else {
-                        Intent(applicationContext, HomeEnterpriseActivity::class.java)
+                    UserProvider.setActualUser(user.firebaseUid!!){
+                        if (it) {
+                            val intent: Intent = if (user.type == "Turista") {
+                                Intent(applicationContext, HomeActivity::class.java)
+                            } else {
+                                Intent(applicationContext, HomeEnterpriseActivity::class.java)
+                            }
+                            startActivity(intent)
+                        } else {
+                            Toast.makeText(applicationContext, "No pudimos colocarte como usuario actual", Toast.LENGTH_SHORT).show()
+                        }
                     }
-                    startActivity(intent)
                 }
             }
         }

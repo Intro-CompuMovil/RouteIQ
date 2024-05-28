@@ -7,6 +7,8 @@ import android.app.UiModeManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +18,7 @@ import androidx.core.content.ContextCompat
 import com.example.entrega1.R
 import com.example.entrega1.databinding.ActivityMapTouristBinding
 import com.example.entrega1.utils.data.Places
+import com.example.entrega1.utils.data.StorageCRUD
 import com.example.entrega1.utils.data.UserProvider
 import com.example.entrega1.utils.schemas.Place
 import com.example.entrega1.utils.schemas.User
@@ -27,14 +30,18 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.TilesOverlay
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.InputStream
 import java.security.Permissions
 
 class MapTouristActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMapTouristBinding
     private lateinit var user: User
-    private var userPlaces: HashSet<Place>? = null
+    private var userPlaces: ArrayList<Place>? = null
     private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
+    private val imageStorage: StorageCRUD = StorageCRUD()
 
     override fun onResume() {
         super.onResume()
@@ -69,34 +76,55 @@ class MapTouristActivity : AppCompatActivity() {
 
         binding.osmUser.setTileSource(TileSourceFactory.MAPNIK)
         binding.osmUser.setMultiTouchControls(true)
+        Toast.makeText(this, "Estamos cargando tus lugares...", Toast.LENGTH_SHORT).show()
+        Places.getPlacesFromUser(user) {
+            userPlaces = it
 
-        userPlaces = Places.getPlacesFromUser(user)
-
-        if (userPlaces == null) {
-            Toast.makeText(this, "No tienes sitios guardados", Toast.LENGTH_SHORT).show()
-        } else {
-            for (place in userPlaces!!) {
-                createMarkerPlace(place)
+            if (userPlaces == null) {
+                Toast.makeText(this, "No tienes sitios guardados", Toast.LENGTH_SHORT).show()
+            } else {
+                var i : Double = 0.0
+                Toast.makeText(baseContext, "Iniciando carga...", Toast.LENGTH_SHORT).show()
+                for (place in userPlaces!!) {
+                    createMarkerPlace(place)
+                    i++
+                    Toast.makeText(baseContext, "Progreso: ${((i/userPlaces!!.size.toDouble())*100)}%", Toast.LENGTH_SHORT).show()
+                }
             }
-        }
 
-        requestPermission(
-            this,
-            android.Manifest.permission.ACCESS_FINE_LOCATION,
-            "Para acceder a la localizacion",
-            1
-        )
+            requestPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                "Para acceder a la localizacion",
+                1
+            )
+        }
     }
+
 
     private fun createMarkerPlace(place: Place) {
         val marker = Marker(binding.osmUser)
         marker.title = place.title
-        val myIcon = BitmapDrawable(resources, place.bitmap)
-        marker.icon = myIcon
-        marker.position = place.location
-        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-        marker.subDescription = place.description
-        binding.osmUser.overlays.add(marker)
+        var placeImageUri : File = File.createTempFile("images", "jpg")
+        imageStorage.getFile("images/${place.firebaseUid}", placeImageUri) {
+            val myIcon : Drawable? = if (it == null) {
+                null
+            } else {
+                try {
+                    val uriFile = Uri.fromFile(it)
+                    contentResolver.openInputStream(uriFile).use { inputStream ->
+                        Drawable.createFromStream(inputStream, uriFile.toString())
+                    }
+                } catch (e: FileNotFoundException) {
+                    null
+                }
+            }
+            marker.icon = myIcon
+            marker.position = place.location.getGeoPoint()
+            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+            marker.subDescription = place.description
+            binding.osmUser.overlays.add(marker)
+        }
     }
 
     private fun createMarkerUser(lat: Double, lng: Double) {

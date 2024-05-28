@@ -18,6 +18,7 @@ import com.example.entrega1.databinding.ActivityCreatePlaceBinding
 import com.example.entrega1.utils.data.Places
 import com.example.entrega1.utils.data.UserProvider
 import com.example.entrega1.utils.misc.NavInit
+import com.example.entrega1.utils.schemas.Location
 import com.example.entrega1.utils.schemas.Place
 import com.example.entrega1.utils.schemas.User
 import org.osmdroid.api.IMapController
@@ -89,14 +90,15 @@ class CreatePlaceActivity : AppCompatActivity() {
             }
 
             val newPlace = Place(
-                longPressedMarker?.position!!,
+                null, // Al crear el Place se añade
+                Location(longPressedMarker?.position!!.longitude, longPressedMarker?.position!!.latitude),
                 binding.placeName.text.toString(),
                 longPressedMarker?.subDescription.toString(),
                 binding.placeDescription.text.toString(),
-                null
+                false
             )
 
-            Places.addPlaceUser(actualUser, newPlace)
+            Places.addPlaceUser(actualUser, newPlace, null)
             Toast.makeText(baseContext, "Lugar añadido con exito", Toast.LENGTH_SHORT).show()
 
             resetUI()

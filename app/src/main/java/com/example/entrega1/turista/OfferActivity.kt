@@ -23,6 +23,7 @@ import kotlinx.coroutines.*
 class OfferActivity : AppCompatActivity() {
 
     private lateinit var toggleButton: ActionBarDrawerToggle;
+    private val userTours : ArrayList<Tour> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -58,7 +59,45 @@ class OfferActivity : AppCompatActivity() {
         Log.i("OFFER", Offers.offers.toString())
 
         Offers.getOffers {
-            for (offer in Offers.offers) {
+
+            Tours.getTours { t ->
+                val offersList = it
+                val toursList = t
+
+                if (offersList != null && toursList != null) {
+                    for (offer in offersList) {
+                        for (tour in toursList) {
+                            if (
+                                tour.id == offer.tourId &&
+                                tour.user.email == user.email &&
+                                !offer.accepted) {
+                                userTours.add(tour)
+                                agencyArr.add(offer.agency.name)
+                                descriptionArr.add(offer.comments)
+                                priceArr.add(offer.amount.toString())
+                                mappedIds.add(offer.id)
+                                break
+                            }
+                        }
+                    }
+                }
+
+                val adapter = OffersAdapter(this, agencyArr, descriptionArr, priceArr)
+                listOffers.adapter = adapter
+
+                createTour.setOnClickListener {
+                    val intent = Intent(applicationContext, CreateTourActivity::class.java)
+                    startActivity(intent)
+                }
+
+                listOffers.setOnItemClickListener { parent, view, position, id ->
+                    val intent = Intent(applicationContext, ConfirmOfferActivity::class.java)
+                    intent.putExtra("offerId", mappedIds[position])
+                    startActivity(intent)
+                }
+            }
+
+            /*for (offer in Offers.offers) {
                 // TODO: De alguna u otra manera toca hacer esperar por esto
                 val tour : Tour? = Tours.getByIdTask(offer.tourId)
 
@@ -68,21 +107,7 @@ class OfferActivity : AppCompatActivity() {
                     priceArr.add(offer.amount.toString())
                     mappedIds.add(offer.id)
                 }
-            }
-
-            val adapter = OffersAdapter(this, agencyArr, descriptionArr, priceArr)
-            listOffers.adapter = adapter
-
-            createTour.setOnClickListener {
-                val intent = Intent(applicationContext, CreateTourActivity::class.java)
-                startActivity(intent)
-            }
-
-            listOffers.setOnItemClickListener { parent, view, position, id ->
-                val intent = Intent(applicationContext, ConfirmOfferActivity::class.java)
-                intent.putExtra("offerId", mappedIds[position])
-                startActivity(intent)
-            }
+            }*/
         }
     }
 
